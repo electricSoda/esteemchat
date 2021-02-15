@@ -1,0 +1,31 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Esteem Corporation</title>
+  <meta name="description" content="Esteem Chat">
+  <meta name="author" content="Esteem">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel='icon' type='image/png' href='Esteem Group.png'>
+
+</head>
+
+<body>
+    <img src='Esteem Group.png' class='headerimg'></img>
+    <div id='chat'>
+        <a href='http://www.essaytyper.com/'>
+            <img src='teacher-is-coming.png'>
+        </a>
+        <div id='chat-window'>
+            <div id='output'></div>
+        </div>
+        <input id='handle' type='text' placeholder='Name'>
+        <input id='message' type='text' placeholder='Message'>
+        <button id='send'>Send</button>
+    </div>
+    <script src='/chat.js'></script>
+</body>
+</html>
