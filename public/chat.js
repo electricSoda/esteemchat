@@ -1,12 +1,12 @@
 // Create connection
-var socket = io.connect('http://localhost:8888');
+var socket = io.connect('http://electricSoda.github.io/esteemchat');
 
 // Query DOM
 var message = document.getElementById('message'),
       handle = document.getElementById('handle'),
       btn = document.getElementById('send'),
       output = document.getElementById('output'),
-      feed = document.getElementById('feedback');
+      chatwin = document.getElementById('chat-window');
 
 // Emit Events
 btn.addEventListener('click', function() {
@@ -24,12 +24,19 @@ document.querySelector("#message").addEventListener("keyup", event => {
     });
 });
 
-
+// Scroll automatically when new message pops up
+function scrollToBottom() {
+    chatwin.scrollTop = chatwin.scrollHeight;
+}
 
 // Listen for the message
 socket.on('chat', function(data) {
+    shouldScroll = chatwin.scrollTop + chatwin.clientHeight === chatwin.scrollHeight;
     output.innerHTML += '<p><strong>' + data.handle + ': </strong>' + data.message + '</p>';
     message.value = ''
+    if (!shouldScroll) {
+        scrollToBottom();
+    }
 });
 
 socket.on('connected', function(data) {

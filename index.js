@@ -3,7 +3,7 @@ var socket = require('socket.io');
 
 // App setup
 var app = express();
-var server = app.listen(8888, function(){
+var server = app.listen(9418, function(){
     console.log('listening to requests')
 });
 
