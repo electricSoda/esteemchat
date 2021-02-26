@@ -1,0 +1,41 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Esteem Corporation</title>
+  <link rel='icon' href='Esteem Group.png'>
+  <link rel='stylesheet' href='styles.css'>
+  <meta name="description" content="Esteem Chat">
+  <meta name="author" content="Esteem">
+  <script src="https://cdn.socket.io/3.1.1/socket.io.min.js"></script>
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div id='chat'>
+        <ul id="messages">  </ul>
+        <p id='typemessages'></p>
+        <form id="form" action="">
+        <input id="input" autocomplete="off" placeholder='Message'>
+        <button id='submit'>Send</button>
+        <p class='divider'>    |    </p>
+        <button id='bail'>
+            ⚠BAIL
+        </button>
+        <div class='drop-container'>
+            <button class='dropdown' onclick='drop()'></button>
+            <div id='je' class='content jeff'>
+                <a href='https://electricsoda.github.io/esteemsite' id='main'>Main Site</a>
+                <a href='https://www.youtube.com/watch?v=dQw4w9WgXcQ' id='play'>Play a Game With Your Friends!</a>
+                <a id='how'>How to Use This Chat</a>
+                <a id='dis'>Disconnect</a>
+            </div>
+        </div>
+        </form>
+
+        <script src='chat.js'></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </div>
+</body>
+</html>

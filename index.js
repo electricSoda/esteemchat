@@ -1,8 +1,11 @@
-const app = require('express')();
+const express = require('express');
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = process.env.PORT || 3000;
 const fs = require('fs');
+
+app.use(express.static('public'));
 
 app.get('/', (req,res) => {
   res.sendFile(__dirname + '/');
@@ -27,10 +30,9 @@ io.on('connection', (socket) => {
   })
 
   socket.on('disconnected', (data) => {
-    var dcmsg = 'Client: ' + data + ' has disconnected from the server'
     console.log('Client: ' + data + ' has disconnected from the server');
     clients -= 1;
-    io.sockets.emit('disconnected', {name: dcmsg, clients: clients });
+    io.sockets.emit('disconnected', {name: data, clients: clients });
   });
 
   socket.on('type', (data)=>{
