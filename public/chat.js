@@ -8,9 +8,9 @@ var typemessages = document.getElementById('usertyping');
 var bail = document.getElementById('bail');
 var dced = document.getElementById('dis');
 var typemessages = document.getElementById('typemessages');
-var bail = document.getElementById('bail')
 var main = document.getElementById('main');
 var play = document.getElementById('play');
+var link = document.getElementById('link');
 
 input.addEventListener('input', function() {
     socket.emit('type', name);
@@ -23,6 +23,11 @@ form.addEventListener('submit', function(e) {
         socket.emit('stoptype', name);
         input.value = '';
     }
+});
+
+link.addEventListener('click', function() {
+    link = prompt('Paste link here (remember to put it in this format-"https://url.end/"):');
+    socket.emit('link', {name: name, linker: link});
 });
 
 main.addEventListener('click', function() {
@@ -38,8 +43,6 @@ bail.addEventListener('click', function() {
     window.open('http://www.essaytyper.com/', "_self");
 });
 
-
-
 dced.addEventListener('click', function() {
     socket.emit('disconnected', name);
     socket.disconnect();
@@ -54,10 +57,18 @@ socket.on('bailed', function(data) {
 })
 
 socket.on('chat', function(data) {
-    var item = document.createElement('li');
-    item.innerHTML = "<strong style='color:dodgerBlue'>" + data.name + '</strong>: ' + data.msg;
-    messages.appendChild(item);
-    window.scrollTo(0, document.body.scrollHeight);
+    if (document.hasFocus()) {
+        var item = document.createElement('li');
+        item.innerHTML = "<strong style='color:dodgerBlue'>" + data.name + '</strong>: ' + data.msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+    } else {
+        var item = document.createElement('li');
+        item.innerHTML = "<strong style='color:dodgerBlue'>" + data.name + '</strong>: ' + data.msg;
+        messages.appendChild(item);
+        alert('Notification');
+        window.scrollTo(0, document.body.scrollHeight);
+    }
 });
 
 socket.on('connected', function(data) {
@@ -69,7 +80,7 @@ socket.on('connected', function(data) {
 
 socket.on('welcome', function(data) {
     var item = document.createElement('li');
-    item.innerHTML = '<strong><em>' + data + '</em></strong>';
+    item.innerHTML = '<center><strong><em>' + data + '</em></strong></center>';
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
 })
@@ -102,9 +113,64 @@ socket.on('stoptype', function(data) {
     window.scrollTo(0, document.body.scrollHeight)
 });
 
+socket.on('link', function(data) {
+    var item = document.createElement('li');
+    item.innerHTML="<strong style='color:dodgerBlue' id='linke'>" + data.name + '</strong>: ' + "<a href='" + data.linker + "'>" + data.linker + '</a>'
+    messages.appendChild(item);
+    window.scrollTo(0, document.body.scrollHeight);
+});
+
+//link
+$('#linke').click(function() {
+    alert('clicke')
+    socket.emit('disconnected', name);
+});
+
 //dropdown menu
-function drop() {
-    document.getElementById('je').classList.toggle('show');
+$('#jeffreylul').click(function() {
+    if ($('#je').is(':hidden')) {
+        $('#je').show();
+    } else {
+        $('#je').hide();
+    }
+});
+
+//jquery
+$(document).click(function(event) { 
+    var $target = $(event.target);
+    if(!$target.closest('#drop-container').length && 
+    $('#je').is(":visible")) {
+        $('#je').hide();
+    }            
+});
+
+
+
+//modal box
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("how");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
 }
 
 

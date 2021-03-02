@@ -15,10 +15,10 @@ var clients = 0;
 
 io.on('connection', (socket) => {
   clients += 1;
+  console.log('Client:' + socket.id +'  has connected to the server.');
+  socket.emit('welcome', 'Welcome to the chat room!');
   socket.broadcast.emit('connected', 'A client has connected');
   io.sockets.emit('num', clients);
-  console.log('Client:' + socket.id +'  has connected to the server.')
-  socket.emit('welcome', 'Welcome to the chat room!')
 
   socket.on('chat', data => {
     io.sockets.emit('chat', data);
@@ -42,6 +42,10 @@ io.on('connection', (socket) => {
 
   socket.on('stoptype', (data)=>{
     socket.broadcast.emit('stoptype', data)
+  });
+
+  socket.on('link', (data)=>{
+    io.sockets.emit('link', data);
   });
 });
 
