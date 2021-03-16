@@ -56,6 +56,8 @@ socket.on('bailed', function(data) {
     window.scrollTo(0, document.body.scrollHeight);
 })
 
+var icon = "https://www.iconsdb.com/icons/preview/black/message-2-xxl.png";
+
 socket.on('chat', function(data) {
     if (document.hasFocus()) {
         var item = document.createElement('li');
@@ -63,11 +65,18 @@ socket.on('chat', function(data) {
         messages.appendChild(item);
         window.scrollTo(0, document.body.scrollHeight);
     } else {
-        var item = document.createElement('li');
-        item.innerHTML = "<strong style='color:dodgerBlue'>" + data.name + '</strong>: ' + data.msg;
-        messages.appendChild(item);
-        alert('Notification');
-        window.scrollTo(0, document.body.scrollHeight);
+        if (Notification.permission=='granted') {
+            var item = document.createElement('li');
+            item.innerHTML = "<strong style='color:dodgerBlue'>" + data.name + '</strong>: ' + data.msg;
+            messages.appendChild(item);
+            window.scrollTo(0, document.body.scrollHeight);
+            var msg = data.msg;
+            var notification = new Notification(data.name, { msg, icon });
+        } else {
+            Notification.requestPermission().then(function (permission) {
+                console.log(permission);
+            });
+        }
     }
 });
 
